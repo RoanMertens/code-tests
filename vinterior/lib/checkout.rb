@@ -13,10 +13,6 @@
 # Add items in any possible order.
 # Add promotional_rules where a new checkout instance is made.
 
-# PRODUCTS = { '001' => ['Very Cheap Chair', 925],
-# '002' => ['Little table', 4500],
-# '003' => ['Funky light', 1995] }
-
 require 'product'
 
 # makes shopping baskets
@@ -38,19 +34,18 @@ class Checkout
     @total_price = 0
   end
 
-  def calc_price
-    @basket.each do |product|
-      @total_price += product.price
-    end
+  def total
+    return 'Your basket is empty!' if @basket.empty?
+    @basket.each { |product| @total_price += product.price }
     check_for_promotional_rules
+    @total_price.round.to_s.insert(-3, '.').prepend('£')
   end
 
   def check_for_promotional_rules
-    @promotional_rules.each do |rule, active|
-      send(rule) if active
-    end
+    @promotional_rules.each { |rule, active| send(rule) if active }
   end
 
+  # promotional rules
   def multiple_very_cheap_chairs
     chairs = @basket.count { |product| product.product_code == '001' }
     return false unless chairs >= 2
@@ -61,19 +56,4 @@ class Checkout
   def spend_over_sixty
     @total_price *= 0.9 if @total_price > 6000
   end
-
-  def total
-    return 'Your basket is empty!' if @basket.empty?
-    calc_price
-    @total_price.round.to_s.insert(-3, '.').prepend('£')
-  end
 end
-
-# a = Checkout.new(multiple_very_cheap_chairs: true)
-# a.scan('001')
-# a.scan('001')
-# p a.total
-
-# @basket.each do |product|
-#   @final_price += PRODUCTS[product][1]
-# end

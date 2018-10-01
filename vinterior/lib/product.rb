@@ -14,7 +14,8 @@ class Product
 
   def create_prod_code
     string_code = ''
-    (3 - (@@count.to_s.length)).times { string_code << '0' }
+    a = 3 - @@count.to_s.length
+    a.times { string_code << '0' }
     string_code << @@count.to_s
   end
 end
