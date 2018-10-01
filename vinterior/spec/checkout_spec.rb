@@ -34,22 +34,23 @@ describe Checkout do
   end
 
   it 'no promotional_rules|basket: 001, 003, 001|total price: £38.45' do
+    checkout_no_pr_rules.empty
     checkout_no_pr_rules.scan('001')
     checkout_no_pr_rules.scan('003')
     checkout_no_pr_rules.scan('001')
     expect(checkout_no_pr_rules.total).to eq '£38.45'
-    checkout_no_pr_rules.empty
   end
 
   it 'all promotional_rules|basket: 001, 003, 001|total price: £36.95' do
+    checkout_all_pr_rules.empty
     checkout_all_pr_rules.scan('001')
     checkout_all_pr_rules.scan('003')
     checkout_all_pr_rules.scan('001')
     expect(checkout_all_pr_rules.total).to eq '£36.95'
-    checkout_all_pr_rules.empty
   end
 
   it 'all promotional_rules|basket: 001, 002, 001, 003|total price: £73.76' do
+    checkout_all_pr_rules.empty
     checkout_all_pr_rules.scan('001')
     checkout_all_pr_rules.scan('002')
     checkout_all_pr_rules.scan('001')

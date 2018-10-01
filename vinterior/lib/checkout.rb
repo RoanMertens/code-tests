@@ -17,10 +17,9 @@
 class Checkout
   attr_reader :basket
 
-  PRODUCTS = { '001' => ['Very Cheap Chair', 9.25],
-               '002' => ['Little table', 45.00],
-               '003' => ['Funky light', 19.95]
-             }
+  PRODUCTS = { '001' => ['Very Cheap Chair', 925],
+               '002' => ['Little table', 4500],
+               '003' => ['Funky light', 1995] }
 
   def initialize(promotional_rules = {})
     @promotional_rules = promotional_rules
@@ -42,7 +41,13 @@ class Checkout
   end
 
   def total
-    "£#{}.#{}"
+    return 'Your basket is empty!' if @basket.empty?
+    price = 0
+    @basket.each do |product|
+      price += PRODUCTS[product][1]
+    end
+    price.to_s.insert(-3, '.').prepend('£')
+    # "#{}.#{}"
   end
 end
 
