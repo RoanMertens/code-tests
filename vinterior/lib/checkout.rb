@@ -29,10 +29,12 @@ class Checkout
 
   def scan(item)
     @basket.push(item)
+    @final_price += PRODUCTS[item][1]
   end
 
   def empty
     @basket.clear
+    @final_price = 0
   end
 
   def check_for_promotional_rules
@@ -42,7 +44,11 @@ class Checkout
   end
 
   def multiple_very_cheap_chairs
-
+    amount_vcc = @basket.count('001')
+    if amount_vcc >= 2
+      @final_price -= amount_vcc * PRODUCTS['001'][1]
+      @final_price += (amount_vcc * 850)
+    end
   end
 
   def spend_over_sixty
@@ -51,11 +57,15 @@ class Checkout
 
   def total
     return 'Your basket is empty!' if @basket.empty?
-
     check_for_promotional_rules
-    @final_price.to_s.insert(-3, '.').prepend('£')
+    @final_price.round.to_s.insert(-3, '.').prepend('£')
   end
 end
+
+# a = Checkout.new(multiple_very_cheap_chairs: true)
+# a.scan('001')
+# a.scan('001')
+# p a.total
 
 # @basket.each do |product|
 #   @final_price += PRODUCTS[product][1]
