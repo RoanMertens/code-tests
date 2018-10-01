@@ -16,7 +16,11 @@ describe Checkout do
     expect(checkout_no_pr_rules.total).to eq '£74.20'
   end
 
-  it 'emptying basket' do
+  it "basket content is #{%w[001 002 003]}" do
+    expect(checkout_no_pr_rules.basket).to eq %w[001 002 003]
+  end
+
+  it 'basket content is []' do
     checkout_no_pr_rules.empty
     expect(checkout_no_pr_rules.total).to eq 'Your basket is empty!'
   end
