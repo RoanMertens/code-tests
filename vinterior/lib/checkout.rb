@@ -24,6 +24,7 @@ class Checkout
   def initialize(promotional_rules = {})
     @promotional_rules = promotional_rules
     @basket = []
+    @final_price = 0
   end
 
   def scan(item)
@@ -40,16 +41,25 @@ class Checkout
     end
   end
 
+  def multiple_very_cheap_chairs
+
+  end
+
+  def spend_over_sixty
+    @final_price *= 0.9 if @final_price > 6000
+  end
+
   def total
     return 'Your basket is empty!' if @basket.empty?
-    price = 0
-    @basket.each do |product|
-      price += PRODUCTS[product][1]
-    end
-    price.to_s.insert(-3, '.').prepend('£')
-    # "#{}.#{}"
+
+    check_for_promotional_rules
+    @final_price.to_s.insert(-3, '.').prepend('£')
   end
 end
+
+# @basket.each do |product|
+#   @final_price += PRODUCTS[product][1]
+# end
 
 # class Item
 #   def initialize(attributes = {})
