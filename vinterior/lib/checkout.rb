@@ -25,7 +25,6 @@ class Checkout
   def initialize(promotional_rules = {})
     @promotional_rules = promotional_rules
     @basket = []
-
   end
 
   def scan(item)
@@ -34,20 +33,18 @@ class Checkout
 
   def empty
     @basket.clear
-    total
   end
 
   def check_for_promotional_rules
     @promotional_rules.each do |rule, active|
-      if rule.active
+      send(rule) if active
     end
   end
 
   def total
-    'Your basket is empty!'
+    "£#{}.#{}"
   end
 end
-
 
 # class Item
 #   def initialize(attributes = {})
