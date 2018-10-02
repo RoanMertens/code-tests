@@ -26,11 +26,11 @@ describe Checkout do
   end
 
   it 'all promotional_rules|basket: 001, 002, 003|total price: £66.78' do
+    checkout_all_pr_rules.empty
     checkout_all_pr_rules.scan('001')
     checkout_all_pr_rules.scan('002')
     checkout_all_pr_rules.scan('003')
     expect(checkout_all_pr_rules.total).to eq '£66.78'
-    checkout_all_pr_rules.empty
   end
 
   it 'no promotional_rules|basket: 001, 003, 001|total price: £38.45' do
