@@ -41,11 +41,11 @@ class Checkout
     @total_price.round.to_s.insert(-3, '.').prepend('£')
   end
 
+  # promotional rules
   def check_for_promotional_rules
     @promotional_rules.each { |rule, active| send(rule) if active }
   end
 
-  # promotional rules
   def multiple_very_cheap_chairs
     chairs = @basket.count { |product| product.product_code == '001' }
     return false unless chairs >= 2
