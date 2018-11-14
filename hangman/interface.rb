@@ -10,7 +10,7 @@ until playing.casecmp('n').zero?
   puts 'Hangman'
   puts hangman.full_frame
   puts 'Yeeehaw!'
-  sleep(1)
+  sleep(1.5)
 
   until hangman.end == true
     puts `clear`

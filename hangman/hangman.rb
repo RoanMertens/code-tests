@@ -20,7 +20,7 @@ class Hangman
       @word.each_with_index do |l, index|
         @hidden[index] = letter if l == letter
       end
-    elsif @mistakes.include?(letter)
+    elsif @mistakes.include?(letter) || letter.length > 1
     else
       @mistakes.push(letter)
     end
