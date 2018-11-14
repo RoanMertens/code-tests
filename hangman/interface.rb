@@ -15,29 +15,32 @@ until playing.casecmp('n').zero?
   until hangman.end == true
     puts `clear`
     puts hangman.frame
-    hangman.hidden
     word = hangman.show_word
     puts word
     puts "The word has #{hangman.word_length} letters."
     puts 'What is your guess? (Only one letter please!)'
     letter = gets.chomp
-
     hangman.check_letter(letter)
-    hangman.check_mistakes
     puts hangman.end?
-    puts hangman.mistakes.length
   end
 
-  puts hangman.frame
   puts `clear`
-  puts "You ended!"
+  puts hangman.frame
+  if hangman.total_mistakes > 9
+    puts 'YOU DIED!'
+    puts
+    puts "The correct word was: #{hangman.correct_word}"
+    puts
+    puts "In the end you had: #{hangman.show_word}"
+  else
+    puts 'YOU WON!'
+    puts
+    puts "You had #{10 - hangman.total_mistakes} guesses left."
+    puts "The word was: #{hangman.hidden}"
+    puts
+    puts 'Good Job!'
+  end
   puts
-  # input a word
-  # show lines
-  # show length word
-  # make guess
-  # check guess
-
   puts 'Do you want to play again? (y/n)'
   playing = gets.chomp
 end

@@ -1,19 +1,18 @@
 # The hangman game
 class Hangman
-  attr_reader :mistakes, :frame, :guesses, :hidden, :end
+  attr_reader :frame, :hidden, :end
   def initialize
     @mistakes = []
     @words = %w[kiss dancing zen forward]
     @word = pick_word
     @hidden = []
     @frame = ['', '', '', '', '', '', '', '', '', '', '']
-    @guesses = 0
     @end = false
   end
 
   def end?
     check_mistakes
-    @end = true if @mistakes.length > 9 || @word == @hidden
+    @end = true if total_mistakes > 9 || @word == @hidden
   end
 
   def check_letter(letter)
@@ -22,10 +21,13 @@ class Hangman
         @hidden[index] = letter if l == letter
       end
     elsif @mistakes.include?(letter)
-      puts "You alreaddy guessed the letter #{letter}"
     else
       @mistakes.push(letter)
     end
+  end
+
+  def total_mistakes
+    @mistakes.length
   end
 
   def hide_word
@@ -34,6 +36,10 @@ class Hangman
 
   def word_length
     @word.length
+  end
+
+  def correct_word
+    @word.join(' ')
   end
 
   def show_word
@@ -45,31 +51,33 @@ class Hangman
   end
 
   def full_frame
-    ['___________',
-     '|/    |',
-     '|     |',
-     '|     O',
-     '|    /|\ ',
-     '|   / | \ ',
-     '|    / \ ',
-     '|   /   \ ',
-     '|',
-     '|',
-     '|\_________']
+    ['___________', '|/    |', '|     |', '|     O', '|    /|\ ', '|   / | \ ',
+     '|    / \ ', '|   /   \ ', '|', '|', '|\_________']
   end
 
   def check_mistakes
-    case @mistakes.length
-    when 0
-      @frame = ['', '', '', '', '', '', '', '', '', '', '']
+    if total_mistakes <= 3
+      zero_to_three
+    elsif total_mistakes <= 7
+      four_to_seven
+    else
+      eight_to_ten
+    end
+  end
+
+  def zero_to_three
+    case total_mistakes
     when 1
       @frame[-1] = '|\_________'
     when 2
-      @frame = ['', '|/', '|', '|', '|', '|', '|', '|', '|', '|',
-                '|\_________']
+      @frame[1, 9] = ['|/', '|', '|', '|', '|', '|', '|', '|', '|']
     when 3
-      @frame = ['___________', '|/', '|', '|', '|', '|', '|', '|', '|', '|',
-                '|\_________']
+      @frame[0] = '___________'
+    end
+  end
+
+  def four_to_seven
+    case total_mistakes
     when 4
       @frame[1, 2] = ['|/    |', '|     |']
     when 5
@@ -78,6 +86,11 @@ class Hangman
       @frame[4, 2] = ['|     |', '|     |']
     when 7
       @frame[4, 2] = ['|    /|', '|   / |']
+    end
+  end
+
+  def eight_to_ten
+    case total_mistakes
     when 8
       @frame[4, 2] = ['|    /|\ ', '|   / | \ ']
     when 9
